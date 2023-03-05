@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   docker:
@@ -13,7 +13,8 @@ jobs:
       - name: Checkout linuxserver/docker-plex
         uses: actions/checkout@v3
         with:
-          repository: my-org/my-tools
+          repository: linuxserver/docker-plex
+          ref: master
 #          path: my-tools
       - run: |
           git apply Dockerfile.patch
