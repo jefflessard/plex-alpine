@@ -15,9 +15,10 @@ jobs:
         with:
           repository: linuxserver/docker-plex
           ref: master
-#          path: my-tools
+          path: docker-plex
       - run: |
-          git apply Dockerfile.patch
+          cd docker-plex
+          git apply ../Dockerfile.patch
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
