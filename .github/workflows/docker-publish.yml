@@ -47,7 +47,6 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./docker-plex
-          github-token: ${{ secrets.GITHUB_TOKEN }}
           push: true
           tags: |
             ghcr.io/${{ github.repository }}:${{ github.run_number }}
