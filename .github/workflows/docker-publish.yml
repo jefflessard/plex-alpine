@@ -46,8 +46,8 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: "{{defaultContext}}:docker-plex"
+          context: .
+          file: docker-plex/Dockerfile
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:dev
             ghcr.io/${{ github.repository }}:${{ github.run_number }}
