@@ -1,0 +1,46 @@
+diff --git a/Dockerfile b/Dockerfile
+index 26a889b..6e2cca6 100644
+--- a/Dockerfile
++++ b/Dockerfile
+@@ -1,4 +1,4 @@
+-FROM ghcr.io/linuxserver/baseimage-ubuntu:jammy
++FROM ghcr.io/linuxserver/baseimage-alpine:edge
+ 
+ # set version label
+ ARG BUILD_DATE
+@@ -23,12 +23,13 @@ ENV DEBIAN_FRONTEND="noninteractive" \
+ 
+ RUN \
+   echo "**** install runtime packages ****" && \
+-  apt-get update && \
+-  apt-get install -y \
++  apk add --no-cache --update-cache \
+     jq \
+     udev \
+-    unrar \
++    dpkg \
++    grep \
+     wget && \
++  dpkg --add-architecture amd64 && \
+   echo "**** install plex ****" && \
+   if [ -z ${PLEX_RELEASE+x} ]; then \
+     PLEX_RELEASE=$(curl -sX GET 'https://plex.tv/api/downloads/5.json' \
+@@ -41,13 +42,17 @@ RUN \
+   echo "**** ensure abc user's home folder is /app ****" && \
+   usermod -d /app abc && \
+   echo "**** cleanup ****" && \
+-  apt-get clean && \
+   rm -rf \
+     /etc/default/plexmediaserver \
+     /tmp/* \
+     /var/lib/apt/lists/* \
+     /var/tmp/*
+ 
++RUN apk add mesa-va-gallium --no-cache --update-cache \
++ && apk add libva-utils --no-cache --update-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
++
++ENV LIBVA_DRIVERS_PATH="/usr/lib/dri" LD_LIBRARY_PATH="/lib:/usr/lib"
++
+ # add local files
+ COPY root/ /
+ 
