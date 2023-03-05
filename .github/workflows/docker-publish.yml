@@ -10,7 +10,11 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout linuxserver/docker-plex
+      - name: Checkout plex-alpine
+        uses: actions/checkout@v3
+        with:
+          path: plex-alpine
+      - name: Checkout original linuxserver/docker-plex
         uses: actions/checkout@v3
         with:
           repository: linuxserver/docker-plex
@@ -18,7 +22,7 @@ jobs:
           path: docker-plex
       - run: |
           cd docker-plex
-          git apply ../Dockerfile.patch
+          git apply ../plex-alpine/Dockerfile.patch
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v2
