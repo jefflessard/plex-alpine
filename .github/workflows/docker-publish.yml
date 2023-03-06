@@ -17,11 +17,14 @@ jobs:
         uses: actions/checkout@v3
         with:
           path: plex-alpine
+      - run: |
+          ./plex-alpine/get-docker-info.sh ${{ inputs.TAGS }} >> $GITHUB_ENV
       - name: Checkout original linuxserver/docker-plex
         uses: actions/checkout@v3
         with:
           repository: linuxserver/docker-plex
-          ref: master
+          #ref: master
+          ref: ${{ inputs.TAGS }}
           path: docker-plex
       - run: |
           cd docker-plex
@@ -50,6 +53,11 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: ./docker-plex
+          build-args:
+            BUILD_DATE=${{ env.BUILD_DATE }}
+            VERSION=${{ env.VERSION }}
+            PLEX_RELEASE=${{ env.PLEX_RELEASE }}
           push: true
           tags: |
-            ghcr.io/${{ github.repository }}:${{ github.run_number }}
+            ghcr.io/${{ github.repository }}:${{ inputs.TAGS }}
+            ghcr.io/${{ github.repository }}:latest
