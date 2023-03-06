@@ -24,3 +24,11 @@ jobs:
         id: scan
       - name: Print
         run: "echo 'Recent updates: ${{ steps.scan.outputs.tags }}'"
+  build:
+    needs: scan
+    if: steps.scan.outputs.tags
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Build
+        run: "echo 'trigger build: ${{ steps.scan.outputs.tags }}'"
+
