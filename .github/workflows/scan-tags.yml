@@ -12,13 +12,13 @@ jobs:
       - name: Scan Repository
         uses: dhet/scan-docker-tags-action@v1.0.1
         with:
-          repo-url: https://ghcr.io         
+#          repo-url: https://ghcr.io         
           image: linuxserver/plex
           tag-regex: "^\\d+\\.\\d+\\.\\d+$"
           max-age-minutes: 15000
 #          max-age-minutes: 15
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+#          username: ${{ github.actor }}
+#          password: ${{ secrets.GITHUB_TOKEN }}
         id: scan
       - name: Print
         run: "echo 'Recent updates: ${{ steps.scan.outputs.tags }}'"
