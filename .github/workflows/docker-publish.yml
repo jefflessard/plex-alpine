@@ -63,3 +63,9 @@ jobs:
             ghcr.io/${{ github.repository }}:latest
             ${{ github.repository }}:${{ inputs.TAGS }}
             ${{ github.repository }}:latest
+      -
+        name: Trigger Build of autotier version
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh --repo "${{ github.repository }}-autotier" workflow run Docker -f VERSION='${{ inputs.TAGS }}'
