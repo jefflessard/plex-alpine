@@ -26,7 +26,7 @@ jobs:
         run: "echo 'Recent updates: ${{ steps.scan.outputs.tags }}'"
   build:
     needs: scan
-    if: steps.scan.outputs.tags
+    if: ${{ steps.scan.outputs.tags }}
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Build
