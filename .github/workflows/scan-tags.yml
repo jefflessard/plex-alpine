@@ -26,11 +26,7 @@ jobs:
         run: |
           echo "TAGS=${{ steps.scan.outputs.tags }}" >> $GITHUB_ENV
           echo 'Recent updates: ${{ steps.scan.outputs.tags }}'
-  build:
-    needs: scan
-    if: ${{ env.TAGS }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Trigger Build
+      - if: ${{ env.TAGS }}
+        name: Trigger Build
         run: "echo 'trigger build: ${{ env.TAGS }}'"
 
