@@ -1,5 +1,6 @@
 name: Scan linuxserver/plex Repo
 on:
+  workflow_dispatch:
   schedule:
     - cron: '*/15 * * * *'
 
