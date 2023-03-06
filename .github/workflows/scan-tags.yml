@@ -23,12 +23,14 @@ jobs:
 #          password: ${{ secrets.GITHUB_TOKEN }}
         id: scan
       - name: Print
-        run: "echo 'Recent updates: ${{ steps.scan.outputs.tags }}'"
+        run: |
+          echo "TAGS=${{ steps.scan.outputs.tags }}" >> $GITHUB_ENV
+          echo 'Recent updates: ${{ steps.scan.outputs.tags }}'
   build:
     needs: scan
-    if: ${{ steps.scan.outputs.tags }}
+    if: ${{ env.TAGS }}
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Build
-        run: "echo 'trigger build: ${{ steps.scan.outputs.tags }}'"
+        run: "echo 'trigger build: ${{ env.TAGS }}'"
 
