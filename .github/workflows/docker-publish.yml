@@ -24,7 +24,7 @@ jobs:
         with:
           repository: linuxserver/docker-plex
           #ref: master
-          ref: ${{ inputs.TAGS }}
+          ref: ${{ env.VERSION }}
           path: docker-plex
       - run: |
           cd docker-plex
