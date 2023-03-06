@@ -28,5 +28,6 @@ jobs:
           echo 'Recent updates: ${{ steps.scan.outputs.tags }}'
       - if: ${{ env.TAGS }}
         name: Trigger Build
-        run: "echo 'trigger build: ${{ env.TAGS }}'"
+        run: |
+          gh workflow run Docker -f TAGS='${{ env.TAGS }}'
 
