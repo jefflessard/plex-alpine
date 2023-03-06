@@ -15,8 +15,8 @@ jobs:
 #          repo-url: https://ghcr.io         
           image: linuxserver/plex
           tag-regex: "^\\d+\\.\\d+\\.\\d+$"
-#          max-age-minutes: 15000
-          max-age-minutes: 15
+          max-age-minutes: 15000
+#          max-age-minutes: 15
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 #          username: ${{ github.actor }}
