@@ -2,6 +2,9 @@ name: Docker
  
 on:
   workflow_dispatch:
+    inputs:
+      TAGS:
+        required: true
 #  push:
 #    branches:
 #      - 'main'
