@@ -66,6 +66,6 @@ jobs:
       -
         name: Trigger Build of autotier version
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.AUTOTIER_PAT }}
         run: |
           gh --repo "${{ github.repository }}-autotier" workflow run Docker -f VERSION='${{ inputs.TAGS }}'
