@@ -1,6 +1,6 @@
 #!/bin/bash
 tag=${1:?No tag provided.}
-image=linuxserver/plex
+image=ghcr.io/linuxserver/plex
 
 docker pull $image:$tag --quiet &> /dev/null
 
