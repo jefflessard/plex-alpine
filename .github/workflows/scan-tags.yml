@@ -2,7 +2,7 @@ name: Scan
 on:
   workflow_dispatch:
   schedule:
-    - cron: '*/60 * * * *'
+    - cron: '0 */6 * * *'
 
 jobs:
   scan:
@@ -15,7 +15,7 @@ jobs:
 #          repo-url: https://ghcr.io         
           image: linuxserver/plex
           tag-regex: "^\\d+\\.\\d+\\.\\d+$"
-          max-age-minutes: 60
+          max-age-minutes: 360
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
 #          username: ${{ github.actor }}
