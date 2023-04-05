@@ -1,5 +1,5 @@
 diff --git a/Dockerfile b/Dockerfile
-index 26a889b..8d7c068 100644
+index 26a889b..a5d833f 100644
 --- a/Dockerfile
 +++ b/Dockerfile
 @@ -1,4 +1,4 @@
@@ -25,7 +25,7 @@ index 26a889b..8d7c068 100644
    echo "**** install plex ****" && \
    if [ -z ${PLEX_RELEASE+x} ]; then \
      PLEX_RELEASE=$(curl -sX GET 'https://plex.tv/api/downloads/5.json' \
-@@ -41,13 +42,19 @@ RUN \
+@@ -41,13 +42,15 @@ RUN \
    echo "**** ensure abc user's home folder is /app ****" && \
    usermod -d /app abc && \
    echo "**** cleanup ****" && \
@@ -39,10 +39,23 @@ index 26a889b..8d7c068 100644
 +RUN apk add mesa-va-gallium --no-cache --update-cache \
 + && apk add libva-utils --no-cache --update-cache --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing/
 +
-+ENV LIBVA_DRIVERS_PATH="/usr/lib/dri" \
-+    LD_LIBRARY_PATH="/lib" \
-+    LD_PRELOAD=/usr/lib/libva.so.2:/usr/lib/plexmediaserver/lib/libssl.so.3:/usr/lib/plexmediaserver/lib/libcrypto.so.3
-+
  # add local files
  COPY root/ /
  
+diff --git a/root/etc/s6-overlay/s6-rc.d/svc-plex/run b/root/etc/s6-overlay/s6-rc.d/svc-plex/run
+old mode 100755
+new mode 100644
+index 8486676..5f609ad
+--- a/root/etc/s6-overlay/s6-rc.d/svc-plex/run
++++ b/root/etc/s6-overlay/s6-rc.d/svc-plex/run
+@@ -1,5 +1,10 @@
+ #!/usr/bin/with-contenv bash
+ 
++#force library dependencies
++export LD_LIBRARY_PATH=/lib #required to use /lib/ld-musl.x86_64.so instead of Plex's version
++export LD_PRELOAD=/usr/lib/libva.so.2:/usr/lib/plexmediaserver/lib/libssl.so.3:/usr/lib/plexmediaserver/lib/libcrypto.so.3 #use system libva (required for system drivers) but dont use system libssl/libcrypto (required for Plex's libpython)
++export LIBVA_DRIVERS_PATH=/usr/lib/dri #use system VA-API drivers instead of Plex's ones
++
+ echo "Starting Plex Media Server. . . (you can ignore the libusb_init error)"
+ export PLEX_MEDIA_SERVER_INFO_MODEL=$(uname -m)
+ export PLEX_MEDIA_SERVER_INFO_PLATFORM_VERSION=$(uname -r)
